@@ -6,8 +6,14 @@ import { Card, Button, CardTitle, CardText } from 'reactstrap';
 
 function App() {
   const [posts, setPosts] = useState([])
+
+ 
  
   useEffect(() => {
+    getPost()
+  },[])
+
+  const getPost = () => {
     axios.get('http://localhost:4000/api/posts')
     .then( res => {
       console.log(res)
@@ -16,17 +22,16 @@ function App() {
     .catch(err => {
       console.log(err)
     })
-  },[])
-
+  }
   const memberSubmit = (post) => {
     Axios.post('http://localhost:4000/api/posts', post)
-    .then(res => window.location.reload(false))
+    .then(res => getPost())
     .catch(err => console.log(err))
 }
-
+// window.location.reload(false)
   const deleteIt = (id) => {
     axios.delete(`http://localhost:4000/api/posts/${id}`)
-    .then( res => window.location.reload(false))
+    .then( res => getPost())
     .catch( err => console.log(err))
   }
 
